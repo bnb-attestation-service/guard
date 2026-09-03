@@ -49,9 +49,10 @@ is malicious":
 | all `LLM-*` verdicts | Model opinion, evidence-grounded and consensus-filtered, still advisory. |
 
 By contrast `EXFIL-001` (credential read **and** egress in the same file) and `EXFIL-003` (with
-an encode step in between) are structural and score as high — but even they describe the shape
-the attack has, not proof that it is one. `EXFIL-003` is raised *instead of* `EXFIL-001`, so
-you will never see both for one file.
+an encode step in between) are structural and score as high — unless every network target in
+that file is loopback, in which case they drop to the same low + advisory band as `EXFIL-002`.
+Even the high form describes the shape the attack has, not proof that it is one. `EXFIL-003`
+is raised *instead of* `EXFIL-001`, so you will never see both for one file.
 
 ## Rank findings this way, not by severity alone
 
@@ -63,7 +64,9 @@ you will never see both for one file.
 3. **Complete exfiltration chains**: `EXFIL-001`, `EXFIL-003`, `PERM-001` (a plaintext secret
    sitting inside a permission entry).
 4. **Hooks**, because they run silently on every matching tool call and nobody reads them:
-   `HOOK-001` and anything found inside a hook-referenced script.
+   `HOOK-001` (shell chaining), `HOOK-002` (second stage outside HOME — high on
+   `PermissionRequest`), `HOOK-003` (HTTP hook posting the event payload), and anything found
+   inside a hook-referenced script.
 5. **Credential and destructive filesystem reach**: `FS-001`, `FS-003`, `FS-002`, `FS-004`.
 6. Everything else, then the advisory shapes above.
 
@@ -79,7 +82,7 @@ them — which is the one outcome that breaks the invariant's whole purpose.
 
 | Note | Read it as |
 |---|---|
-| `COV-000` | Something was not read: oversize file, unknown extension, an excluded generated dir, a hook script outside `$HOME`, unowned top-level entries, or **a root that collected nothing at all**. |
+| `COV-000` | Something was not read: oversize file, unknown extension, an excluded generated dir, a hook script outside `$HOME` (the matching `HOOK-002` is the scoring half), unowned top-level entries, or **a root that collected nothing at all**. |
 | `IO-000` | The path exists but could not be read. A permissions problem to fix, then rescan. |
 | `PARSE-000` | A settings/manifest file parsed into nothing usable. "No hooks found" and "the hooks block was malformed" are different facts — this is the second one. |
 | `SCOPE-001` | A symlink resolved outside `$HOME` and was refused. Deliberate: fail-closed. |

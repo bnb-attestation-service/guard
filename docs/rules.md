@@ -22,7 +22,7 @@ read the evidence before acting.
 - [1 — Prompt injection](#1--prompt-injection) (6)
 - [2 — Excessive permissions](#2--excessive-permissions) (5)
 - [3 — Data exfiltration](#3--data-exfiltration) (6)
-- [4 — Code execution](#4--code-execution) (10)
+- [4 — Code execution](#4--code-execution) (12)
 - [5 — Supply chain](#5--supply-chain) (5)
 - [6 — Obfuscation](#6--obfuscation) (6)
 - [7 — Backdoor](#7--backdoor) (3)
@@ -58,9 +58,9 @@ read the evidence before acting.
 
 | ID | Severity | Title | Why it fires |
 |---|---|---|---|
-| `EXFIL-001` | high | Exfiltration chain in one file | The same file both reads a credential and makes an outbound request. Two legs (credential + egress) complete a chain; encoding is an amplifier, not a requirement. |
+| `EXFIL-001` | high | Exfiltration chain in one file | The same file both reads a credential and makes an outbound request. Two legs (credential + egress) complete a chain; encoding is an amplifier, not a requirement. When every network target in that file is loopback (127.0.0.1, localhost, or ::1), the finding stays but drops to low + advisory — same band as EXFIL-002 — because the data has not left the machine. |
 | `EXFIL-002` | low · advisory | Exfiltration surface split across files | One file in the artifact reads credentials, a different one makes outbound requests. Much weaker than the same-file chain — unrelated files legitimately do each half — so it is advisory, and only raised when no same-file chain was found. |
-| `EXFIL-003` | high | Exfiltration chain with encoding | All three legs in one file — credential read, encode, egress. Raised INSTEAD of EXFIL-001 (one fact reported twice reads as two problems), together with OBF-004. |
+| `EXFIL-003` | high | Exfiltration chain with encoding | All three legs in one file — credential read, encode, egress. Raised INSTEAD of EXFIL-001 (one fact reported twice reads as two problems), together with OBF-004. Same loopback downgrade as EXFIL-001; OBF-004 is not raised when nothing left the machine. |
 | `LLM-006` | medium · advisory | Cross-file capability chain | Different files of one artifact collect and send between them. |
 | `PERM-001` | high | Inline plaintext secret in a permission entry | An allow entry embeds a credential value directly; remove it and use a secret manager. |
 | `REP-BAD` | critical | Known-malicious artifact (reputation list) | The artifact's canonical hash matches a curated known-bad entry. Hash-exact, so it is the highest-confidence signal the tool has — critical, forcing the environment score to the High band. |
@@ -79,6 +79,8 @@ read the evidence before acting.
 | `EXEC-008` | high | PowerShell encoded command | powershell -enc runs a base64-encoded command — a common obfuscated-execution vector. |
 | `EXEC-009` | medium | PowerShell Invoke-Expression | IEX executes a string as PowerShell — an eval equivalent. (Bare 'iex' in prose, e.g. the Elixir REPL, is not matched.) |
 | `HOOK-001` | medium | Hook command chains extra shell | This hook command uses shell chaining/substitution (; && \|\| \| ` $()), so what actually runs is not just the command registered for this event; hooks execute silently on every matching tool call, so keep them to a single command (a script file, if it needs logic). Runs on hook commands only: unremarkable in a script, telling in a hook. |
+| `HOOK-002` | medium | Hook second stage is outside HOME and was not read | A hook command names a script that resolves outside the scan home. Spec §16.2 still forbids reading it; this finding scores the refusal itself, because an unaudited payload at a silent intercept is a risk, not just a coverage gap. Raised to high on PermissionRequest, which takes the authorization decision. The matching COV-000 note is kept: coverage and scoring are different facts. |
+| `HOOK-003` | high | Hook forwards event payload over HTTP | type=http posts the full event (tool inputs, command lines, permission prompts) to a URL. Ordinary events to loopback are low (a local sidecar). PermissionRequest to loopback is high (it still takes allow/deny). Any non-loopback destination is high, because the operation stream is leaving the machine. |
 
 ## 5 — Supply chain
 
@@ -98,7 +100,7 @@ read the evidence before acting.
 | `OBF-001` | medium | base64 decode surface | Decodes a hidden payload — often combined with execution into an obfuscation attack. |
 | `OBF-002` | low | Suspicious large base64 blob | A very long base64 string in an assignment/argument position looks like a hidden payload. |
 | `OBF-003` | medium | Decode-then-eval | Decodes then executes — a classic anti-analysis obfuscation. |
-| `OBF-004` | medium | Encoding co-occurs with an exfiltration chain | The encode leg of EXFIL-003, scored in dimension 6 so its penalty ADDS to the dimension-3 finding instead of being absorbed by it (within a dimension only the highest hit counts). |
+| `OBF-004` | medium | Encoding co-occurs with an exfiltration chain | The encode leg of EXFIL-003, scored in dimension 6 so its penalty ADDS to the dimension-3 finding instead of being absorbed by it (within a dimension only the highest hit counts). Not raised when the chain's network targets are all loopback. |
 | `OBF-005` | medium | Mixed-script token (homoglyph disguise) | A word mixes ASCII with Cyrillic/Greek letters that look identical to ASCII. This defeats literal pattern matching while running the same command; rules are also applied to a folded copy, so anything hidden this way is still checked. |
 
 ## 7 — Backdoor

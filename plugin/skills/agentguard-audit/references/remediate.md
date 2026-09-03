@@ -33,6 +33,16 @@ hook — hooks run silently on every matching tool call. Fix: move the logic int
 and register a single command pointing at it. The script then gets read and scanned, which is
 the point.
 
+`HOOK-002` is a hook whose second stage sits outside `$HOME` and was not read. Confirm what
+the script is (a GUI app under `/Applications` is the usual honest case) and either move it
+inside the home directory so the scanner can follow it, or accept the unaudited intercept and
+baseline it with a written reason. `PermissionRequest` on this shape is high — that hook
+takes allow/deny.
+
+`HOOK-003` is an HTTP hook. A loopback URL on an ordinary event is a local sidecar; confirm it.
+A non-loopback URL, or any URL on `PermissionRequest`, is the event stream (or the
+authorization decision) leaving the box — remove it unless that is what you intended.
+
 If a hook is one the user did not add, that is the finding. Hooks are the surface where
 "I don't know where this came from" should stop the conversation and start an investigation.
 
@@ -64,7 +74,8 @@ If a hook is one the user did not add, that is the finding. Hooks are the surfac
   in an installed skill: stop, do not narrow the code — ask why it is there at all.
 - `EXFIL-001` / `EXFIL-003` — the two (or three) legs are named in the evidence. Read both
   before proposing anything; the honest version of this shape is a tool that reads a token to
-  authenticate its own API call.
+  authenticate its own API call. If every cited host is loopback, the finding is already
+  advisory: confirm the local sidecar, do not treat it as data leaving the machine.
 
 ## Removing an artifact
 
