@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# AgentGuard pre-commit gate.
+# Install:  cp hack/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+#
+# Blocks a commit if any staged skill/agent artifact scans at or above the threshold.
+# Scans each staged directory that contains a SKILL.md (a skill being added/edited).
+set -euo pipefail
+
+AGUARD="${AGUARD:-aguard}"
+FAIL_ON="${AGUARD_FAIL_ON:-high}"
+
+# Staged skill dirs (dirs whose SKILL.md is staged).
+mapfile -t skills < <(git diff --cached --name-only --diff-filter=ACM \
+  | grep -E '(^|/)SKILL\.md$' | xargs -r -n1 dirname | sort -u)
+
+if [ "${#skills[@]}" -eq 0 ]; then
+  exit 0
+fi
+
+status=0
+for dir in "${skills[@]}"; do
+  echo "AgentGuard: checking $dir"
+  if ! "$AGUARD" check "$dir" --fail-on "$FAIL_ON" --quiet; then
+    echo "  ✗ $dir failed AgentGuard gate (>= $FAIL_ON). Run: $AGUARD check $dir" >&2
+    status=1
+  fi
+done
+
+if [ "$status" -ne 0 ]; then
+  echo "Commit blocked by AgentGuard. Fix findings, or set AGUARD_FAIL_ON=critical to relax." >&2
+fi
+exit "$status"

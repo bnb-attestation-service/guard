@@ -1,0 +1,14 @@
+{
+  "name": "agentguard",
+  "owner": {
+    "name": "BNB Attestation Service"
+  },
+  "plugins": [
+    {
+      "name": "agentguard",
+      "source": "./plugin",
+      "category": "security",
+      "description": "Local, read-only security scan for AI agent environments: audit ~/.claude for injection / exfiltration / over-broad grants, vet a skill before installing it, and gate skill loads on a canonical hash. Scanning is read-only; the one writing command (clean) moves, never deletes."
+    }
+  ]
+}

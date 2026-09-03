@@ -1,0 +1,10 @@
+{
+  "name": "agentguard",
+  "description": "Security antivirus for Claude Code environments. Audits skills, MCP servers, hooks, permission allowlists, subagents, slash commands, plugins and CLAUDE.md for prompt injection, credential exfiltration, arbitrary execution and over-broad grants — locally and offline; scanning is strictly read-only, and the one command that writes (clean) moves and never deletes. Vets a skill before you install it, and gates loads on a canonical hash.",
+  "version": "0.1.0",
+  "author": {
+    "name": "BNB Attestation Service"
+  },
+  "homepage": "https://github.com/bnb-attestation-service/guard",
+  "license": "MIT"
+}
