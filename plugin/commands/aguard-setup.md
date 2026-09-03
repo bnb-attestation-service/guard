@@ -8,7 +8,11 @@ report at each decision point — do not install a hook or change any config wit
 
 1. **Binary.** `command -v aguard || ls ./bin/aguard`. If missing, use the `agentguard-audit`
    skill's `references/install.md` — including the checksum verification, which is not optional.
-   Report the version.
+   If present, do NOT stop at "already installed": run `aguard version`, compare it with the
+   latest release tag as described in install.md's "Upgrading" section, and when it is older,
+   upgrade in place (same path, so an installed gate keeps working). Report the version you
+   ended up with. A machine on an old binary gets none of the newer rules and none of the
+   allowlist, and it looks exactly like an up-to-date one until someone checks.
 
 2. **First scan.** Use the `agentguard-audit` skill. Root: $ARGUMENTS (default `~/.claude`).
    Run `aguard scan --verbose`, then triage properly per that skill's `references/triage.md` —

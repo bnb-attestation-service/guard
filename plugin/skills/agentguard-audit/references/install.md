@@ -64,6 +64,38 @@ mkdir -p ~/.local/bin && chmod +x "aguard-$PLAT" && mv "aguard-$PLAT" ~/.local/b
 **If verification fails, stop.** Do not run the binary, do not retry with the check removed.
 Report the mismatch — that is the one outcome where the correct action is to do nothing.
 
+## Upgrading an existing binary
+
+`aguard version` prints the installed version; the distribution repo's latest release tag is
+one request away. Compare them before assuming an installed binary is current — a machine on
+an old build gets none of the newer rules and none of the reputation allowlist, and nothing
+in its output says so.
+
+```bash
+aguard version
+curl -fsSL "https://api.github.com/repos/bnb-attestation-service/guard/releases/latest"   | grep -o '"tag_name": *"[^"]*"'
+```
+
+If the installed version is older, fetch and verify exactly as in the prebuilt section above,
+then move the new file **over the existing one** rather than to a new location:
+
+```bash
+chmod +x "aguard-$PLAT" && mv "aguard-$PLAT" "$(command -v aguard)"    # sudo if it lives in /usr/local/bin
+aguard version                                                           # must now print the new tag
+```
+
+Same path matters: the load-time gate in `settings.json` points at that path, so upgrading in
+place keeps the gate working with no reinstall. Moving the binary elsewhere would leave the
+hook pointing at a file that no longer exists — the `GATE-001` failure mode.
+
+Update the plugin (skills and commands) separately — it moves on its own clock:
+
+```
+/plugin update agentguard@agentguard        # VS Code / JetBrains: `claude plugin update agentguard@agentguard` in a shell
+```
+
+then restart Claude Code (the extension: reload the window).
+
 ## From source (maintainers only — the source repo is private)
 
 Public users do not need this: the `curl` install above pulls a prebuilt binary from the
