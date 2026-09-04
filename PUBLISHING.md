@@ -47,6 +47,11 @@ Then `git add -A && git commit && git push` in `$DIST`.
 (`bnb-attestation-service/guard`). If you rename this repo, grep the plugin for the old name
 and fix it, or `/aguard-setup` will fetch from a 404.
 
+Before tagging, bump the version in BOTH `plugin/.claude-plugin/plugin.json` and the plugin entry
+of `.claude-plugin/marketplace.json` (the source repo's test keeps them equal). The desktop app's
+update check reads the marketplace entry; the CLI reads plugin.json. And keep the marketplace
+`name` equal to this repo's name (`guard`) — the desktop looks the marketplace up by repo name.
+
 ## 2. Cut a release (the binaries)
 
 The binaries are built in the **source repo** (it owns the Makefile, the ldflags, the
