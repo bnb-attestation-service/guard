@@ -1,7 +1,7 @@
 {
   "name": "agentguard",
   "description": "A security check-up for your Claude setup. Once installed, just ask: 'Is my Claude setup safe?', 'Is this skill safe to install?', 'Clean up my unused skills.' Everything runs on your machine; nothing is uploaded. Security antivirus for Claude Code environments. Audits skills, MCP servers, hooks, permission allowlists, subagents, slash commands, plugins and CLAUDE.md for prompt injection, credential exfiltration, arbitrary execution and over-broad grants — locally and offline; scanning is strictly read-only, and the one command that writes (clean) moves and never deletes. Vets a skill before you install it, and gates loads on a canonical hash.",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "author": {
     "name": "BNB Attestation Service"
   },
