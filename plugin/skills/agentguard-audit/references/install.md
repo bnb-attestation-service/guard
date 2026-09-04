@@ -66,7 +66,9 @@ Report the mismatch — that is the one outcome where the correct action is to d
 
 ## Upgrading an existing binary
 
-`aguard version` prints the installed version; the distribution repo's latest release tag is
+`aguard version` prints the installed version, and — offline — whether the installed agentguard
+plugin is ahead of it (the plugin auto-updates through Claude Code; the binary never does). That
+line alone is reason enough to upgrade. The distribution repo's latest release tag is
 one request away. Compare them before assuming an installed binary is current — a machine on
 an old build gets none of the newer rules and none of the reputation allowlist, and nothing
 in its output says so.

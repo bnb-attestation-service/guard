@@ -19,6 +19,11 @@ no `/plugin`).
 /plugin marketplace add bnb-attestation-service/guard
 /plugin install agentguard@agentguard
 ```
+In the terminal, turn on auto-update for this marketplace once (`/plugin` → **Marketplaces** →
+`agentguard` → **Enable auto-update**) so skill updates arrive on their own; the desktop app's
+"Sync automatically" toggle is the same thing. The `aguard` binary never updates itself —
+`aguard version` tells you when it has fallen behind the plugin, and `/aguard-setup` upgrades it.
+
 
 Restart Claude Code (the extension: reload the window), then run:
 
