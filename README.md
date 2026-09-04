@@ -17,7 +17,7 @@ no `/plugin`).
 
 ```
 /plugin marketplace add bnb-attestation-service/guard
-/plugin install agentguard@agentguard
+/plugin install agentguard@guard
 ```
 In the terminal, turn on auto-update for this marketplace once (`/plugin` → **Marketplaces** →
 `agentguard` → **Enable auto-update**) so skill updates arrive on their own; the desktop app's
