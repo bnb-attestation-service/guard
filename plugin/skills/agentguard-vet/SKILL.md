@@ -1,6 +1,6 @@
 ---
 name: agentguard-vet
-description: "Vet a single AI agent artifact with AgentGuard (`aguard check`) before it is installed, committed or trusted — one skill directory, plugin, MCP config, subagent, slash command, hook script, CLAUDE.md or loose file. Exits non-zero at or above a severity threshold, so it also drops into a git pre-commit hook or CI. Trigger when the user asks whether a specific skill/plugin/repo is safe to install, pastes or links one and asks you to review it, asks to check a downloaded or third-party skill before adding it to ~/.claude, wants a security gate in CI or pre-commit for the skills they publish, or wants an artifact's canonical hash."
+description: "Checks a new skill before you install it. Say: 'I downloaded this skill, is it safe to install?' and hand over the folder or the link. Vet a single AI agent artifact with AgentGuard (`aguard check`) before it is installed, committed or trusted — one skill directory, plugin, MCP config, subagent, slash command, hook script, CLAUDE.md or loose file. Exits non-zero at or above a severity threshold, so it also drops into a git pre-commit hook or CI. Trigger when the user asks whether a specific skill/plugin/repo is safe to install, pastes or links one and asks you to review it, asks to check a downloaded or third-party skill before adding it to ~/.claude, wants a security gate in CI or pre-commit for the skills they publish, or wants an artifact's canonical hash."
 allowed-tools: Bash, Read, Glob, Grep, Write, Edit
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: agentguard-gate
-description: "Install, inspect, repair or remove AgentGuard's load-time gate (`aguard hook`) — a Claude Code hook that audits a skill before an agent loads it and asks the user about anything carrying a finding, and manage the hash-keyed approvals it remembers (`aguard approve` / `approvals` / `forget`). Trigger when the user wants automatic protection rather than remembering to scan, asks to install/uninstall the aguard hook or set up hook-based scanning of skills, asks why the gate is prompting (or has stopped prompting), asks to trust or untrust a skill so it stops asking, or hits a GATE-000 / GATE-001 finding."
+description: "Turns on automatic protection: every skill is checked before it loads, and anything with a finding asks you first. Say: 'Turn on the gate', 'I trust this skill, stop asking'. Install, inspect, repair or remove AgentGuard's load-time gate (`aguard hook`) — a Claude Code hook that audits a skill before an agent loads it and asks the user about anything carrying a finding, and manage the hash-keyed approvals it remembers (`aguard approve` / `approvals` / `forget`). Trigger when the user wants automatic protection rather than remembering to scan, asks to install/uninstall the aguard hook or set up hook-based scanning of skills, asks why the gate is prompting (or has stopped prompting), asks to trust or untrust a skill so it stops asking, or hits a GATE-000 / GATE-001 finding."
 allowed-tools: Bash, Read, Glob, Grep, Write, Edit
 ---
 

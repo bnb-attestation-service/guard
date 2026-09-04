@@ -8,7 +8,7 @@
       "name": "agentguard",
       "source": "./plugin",
       "category": "security",
-      "description": "Local, read-only security scan for AI agent environments: audit ~/.claude for prompt injection / credential exfiltration / over-broad permission grants, vet a skill before installing it, and gate skill loads on a canonical content hash."
+      "description": "A security check-up for your Claude setup. Once installed, just ask: 'Is my Claude setup safe?', 'Is this skill safe to install?', 'Clean up my unused skills.' Everything runs on your machine; nothing is uploaded. Local, read-only security scan for AI agent environments: audit ~/.claude for prompt injection / credential exfiltration / over-broad permission grants, vet a skill before installing it, and gate skill loads on a canonical content hash."
     }
   ]
 }
