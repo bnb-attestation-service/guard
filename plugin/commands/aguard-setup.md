@@ -29,5 +29,11 @@ report at each decision point — do not install a hook or change any config wit
    from turn one and are not gated, and that it takes effect only for sessions started after a
    restart.
 
+5. **Deep check — one question, no flow.** Say that an optional AI deep check exists (an
+   isolated model, a hosted account of their own, redacted excerpts sent off the machine) and
+   ask whether to set it up now or later. "Later" ends it here — the usage card says how to come
+   back to it. "Now" → the `agentguard-audit` skill's `references/llm.md`. Do not pitch it: the
+   static scan is complete without it, and this is already the run where they made two decisions.
+
 Finish with what is now protected, what is not, and the one thing you would do next. Then
 print the usage card from the `agentguard-audit` skill's `references/usage.md` and end on it — it is the last thing on screen, so it is the part they will keep.
