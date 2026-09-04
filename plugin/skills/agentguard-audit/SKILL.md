@@ -1,6 +1,6 @@
 ---
 name: agentguard-audit
-description: "Checks whether what you already have installed in Claude is safe. Say things like: 'Scan my Claude setup', 'What does EXFIL-001 mean?', 'Clean up my duplicate skills', 'How do I use AgentGuard?'. Audit an AI agent environment for security risk with AgentGuard (`aguard scan`) — scan ~/.claude or a project's .claude for prompt injection, credential exfiltration, arbitrary-execution grants, silently-running hooks and malicious skills/MCP servers/subagents/CLAUDE.md, then triage the findings into a fix plan. Also covers junk cleanup (`aguard clean`: duplicate, bloated and stale skills, reclaimable context tokens). Trigger when the user asks to scan, audit, review or check the security of their agent setup, asks whether their ~/.claude or installed skills are safe, asks what a finding or rule ID means (INJ-001, EXEC-001, EXFIL-002, PERM-006, HOOK-001, SUP-004, COV-000, GATE-001, …), asks why their risk score is what it is, wants their agent config cleaned up, or asks how to use AgentGuard / what it can do (answer with references/usage.md, no scan)."
+description: "Checks whether what you already have installed in Claude is safe. Say things like: 'Scan my Claude setup', 'What does EXFIL-001 mean?', 'Clean up my duplicate skills', 'How do I use AgentGuard?'. Audit an AI agent environment for security risk with AgentGuard (`aguard scan`) — scan ~/.claude or a project's .claude for prompt injection, credential exfiltration, arbitrary-execution grants, silently-running hooks and malicious skills/MCP servers/subagents/CLAUDE.md, then triage the findings into a fix plan. Also covers junk cleanup (`aguard clean`: duplicate, bloated and stale skills, reclaimable context tokens). Trigger when the user asks to scan, audit, review or check the security of their agent setup, asks whether their ~/.claude or installed skills are safe, asks what a finding or rule ID means (INJ-001, EXEC-001, EXFIL-002, PERM-006, HOOK-001, SUP-004, COV-000, GATE-001, …), asks why their risk score is what it is, wants their agent config cleaned up, asks how to use AgentGuard / what it can do (answer with references/usage.md, no scan), or asks for a deeper / AI-powered check or to set up, test or check the LLM judge (references/llm.md)."
 allowed-tools: Bash, Read, Glob, Grep, Write, Edit
 ---
 
@@ -13,6 +13,10 @@ connection.
 
 **Asked how to use it, or what it can do?** Print [references/usage.md](references/usage.md)
 and stop there — no scan unless they ask for one.
+
+**Asked for a deeper or AI-powered check, or to set up the judge?** Follow
+[references/llm.md](references/llm.md): `aguard llm status` first, setup only with the user's
+agreement on where content goes, `aguard llm test` before any `scan --llm`.
 
 Your job is not to run one command. It is to get the user from "no idea what's in my
 `~/.claude`" to "I know what these three findings mean and here's what I changed."

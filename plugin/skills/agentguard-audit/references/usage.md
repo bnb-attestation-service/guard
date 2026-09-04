@@ -16,5 +16,6 @@ AgentGuard is in place. From here on, just say what you want:
 - **Understand a result** — "What does EXFIL-001 mean?" "Why is my score 61?"
 - **Automatic protection** — "Turn on the gate" → every skill is checked before it loads; anything with a finding asks you first
 - **Clean up** — "Clean up my unused skills" → finds duplicate, bloated and stale skills; moves them, never deletes
+- **Deep check (optional)** — "Run the AI deep check" → an isolated model reads redacted excerpts for what rules miss; one-time setup with a model account of your own: "Set up the deep check"
 
-Forgot how? Type `/aguard-help`. Everything runs on your own machine; nothing is uploaded.
+Forgot how? Type `/aguard-help`. Everything runs on your own machine; nothing leaves it unless you turn on the deep check.

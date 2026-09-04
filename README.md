@@ -39,7 +39,8 @@ Once set up, the three skills fire on their own when you ask. Say things like:
 - *"What does `EXFIL-001` mean?"*
 - *"My config is bloated, clean it up."*
 
-Or reach for the slash commands directly: `/aguard-scan`, `/aguard-vet <path>`, `/aguard-gate`.
+Or reach for the slash commands directly: `/aguard-scan`, `/aguard-vet <path>`, `/aguard-gate`,
+`/aguard-llm` (set up the optional AI deep check), `/aguard-help` (how to use it, in plain language).
 
 If you installed the load-time gate, every skill an agent tries to load is scanned first —
 clean ones pass silently, risky ones are held for your decision, and editing an approved skill
