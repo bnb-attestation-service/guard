@@ -16,7 +16,8 @@ report at each decision point — do not install a hook or change any config wit
    allowlist, and it looks exactly like an up-to-date one until someone checks.
 
 2. **First scan.** Use the `agentguard-audit` skill. Root: $ARGUMENTS (default `~/.claude`).
-   Run `aguard scan --verbose`, then triage properly per that skill's `references/triage.md` —
+   Run `aguard scan --verbose --report` (the HTML report lands in the reports directory and
+   its path is printed), then triage properly per that skill's `references/triage.md` —
    worst artifact by name and score, real findings separated from advisory shapes, and any
    dimension-0 note that changes how the result should be read (`IGN-000`/`REP-GOOD`
    suppressions, a `COV-000` saying nothing was collected, `GATE-001`).
@@ -39,5 +40,7 @@ report at each decision point — do not install a hook or change any config wit
    back to it. "Now" → the `agentguard-audit` skill's `references/llm.md`. Do not pitch it: the
    static scan is complete without it, and this is already the run where they made two decisions.
 
-Finish with what is now protected, what is not, and the one thing you would do next. Then
+Finish with what is now protected, what is not, and the one thing you would do next. Open the
+HTML report in the browser (`open <path>` on macOS, `xdg-open <path>` on Linux) — this is the
+one run where a visual report is worth a window — and say where the file is. Then
 print the usage card from the `agentguard-audit` skill's `references/usage.md` and end on it — it is the last thing on screen, so it is the part they will keep.

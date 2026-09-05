@@ -135,6 +135,22 @@ judgment rests on — relay that number, not just the verdict.
 Context bloat is reported with a token count. That number is the argument to make to the user:
 a bloated `CLAUDE.md` costs them tokens in every single session.
 
+## The HTML report
+
+Every full scan should carry `--report`: it writes a self-contained HTML report (score gauge,
+findings grouped by artifact with line-level evidence, the cleanup section) to
+`~/.config/aguard/reports/scan-<timestamp>.html` and prints the path. It costs nothing and it is
+the form a non-technical user can actually read, keep and compare with last month's.
+
+- **On a routine scan, do not open it unasked.** End with one line — where it is, and "say
+  'open the report' to view it". A browser window on every scan is noise.
+- **When asked, open it**: `open <path>` on macOS, `xdg-open <path>` on Linux.
+- **`/aguard-setup` is the exception**: the first run opens it, because that is the one moment a
+  visual report earns a window.
+- The report contains the user's own paths and redacted snippets from their configuration. It
+  is local by design; do not suggest sending it anywhere, and if the user wants to share it,
+  say what is in it first.
+
 ## Two things this skill is not
 
 - **Not a safety certificate.** The score is a relative risk signal from static analysis. It

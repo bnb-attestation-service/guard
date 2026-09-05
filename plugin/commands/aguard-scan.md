@@ -4,6 +4,8 @@ argument-hint: "[config root, default ~/.claude]"
 ---
 
 Use the `agentguard-audit` skill to scan $ARGUMENTS (default: the current user's `~/.claude`).
+Run the scan with `--report` so the HTML report is written too; end with its path and a one-line
+offer to open it (do not open it unasked — see the skill's "The HTML report" section).
 
 Do the whole job, not just the command: run the scan, read the report against that skill's
 `references/triage.md`, and hand back the worst artifact by name and score, the findings that
