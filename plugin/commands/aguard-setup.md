@@ -28,7 +28,10 @@ report at each decision point — do not install a hook or change any config wit
    then `aguard hook install --dry-run` shown before any real install, from a *stable* binary
    path. State plainly that it covers skills only, that plugin hooks and MCP servers are live
    from turn one and are not gated, and that it takes effect only for sessions started after a
-   restart.
+   restart. Say how many of each the scan actually found — its `hooks` and `mcp_servers` counts
+   include the ones plugins bundle — and never say "zero" about a surface the scan does not
+   collect: Claude Desktop's own remote connectors are not read at all, so they are "not
+   collected", not "none".
 
 5. **Deep check — one question, no flow.** Say that an optional AI deep check exists (an
    isolated model, a hosted account of their own, redacted excerpts sent off the machine) and

@@ -156,6 +156,13 @@ along with the alert only, which meant the operators whose environment was quiet
 who never heard it, and they are precisely the ones most likely to conclude the gate covers
 everything. If a user believes hooks or MCP servers are gated, this is the message they missed.
 
+When you put numbers on what the gate does not cover, take them from the scan's inventory —
+`hooks` and `mcp_servers` include what installed plugins bundle — and keep two things apart:
+a surface the scan read and found empty, and a surface it does not collect. Claude Desktop's
+remote connectors (the ones added in the app's Connectors tab) are the second kind; a machine
+with `mcp_servers: 0` can still have them live in every session. "Not collected" is the
+honest phrase; "you have none" is a claim the tool cannot back.
+
 ## What reaches the model, and what does not
 
 The `SessionStart` message and every gate verdict carry rule IDs and `file:line` only — **never
