@@ -35,6 +35,15 @@ Restart Claude Code (the extension: reload the window), then run:
 verifies its checksum), runs a first scan of your `~/.claude`, walks you through the findings,
 and offers the load-time gate. From then on you just talk to it in plain language.
 
+## Updating
+
+- **Claude Desktop**: Customize → Plugins → open the plugin → **Update**. If it says there is
+  nothing new although a release just went out, open **Manage plugins** → **Personal** → select the
+  `guard` marketplace → **Refresh marketplace** (the server re-reads this repository), then Update.
+- **Terminal**: `claude plugin update agentguard@guard`, or turn on auto-update for the marketplace once.
+- **The binary** never updates itself: `aguard version` tells you when it is behind the plugin, and
+  `/aguard-setup` upgrades it in place.
+
 ## Use it — no commands to memorize
 
 Once set up, the three skills fire on their own when you ask. Say things like:
