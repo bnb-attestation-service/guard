@@ -142,6 +142,9 @@ findings grouped by artifact with line-level evidence, the cleanup section) to
 `~/.config/aguard/reports/scan-<timestamp>.html` and prints the path. It costs nothing and it is
 the form a non-technical user can actually read, keep and compare with last month's.
 
+- **A binary older than 0.4.4 does not know `--report`** and rejects the flag. If that happens,
+  run with `--html ~/.config/aguard/reports/scan-<timestamp>.html` instead (create the
+  directory first) and tell the user the binary is behind the plugin — `/aguard-setup` upgrades it.
 - **On a routine scan, do not open it unasked.** End with one line — where it is, and "say
   'open the report' to view it". A browser window on every scan is noise.
 - **When asked, open it**: `open <path>` on macOS, `xdg-open <path>` on Linux.
