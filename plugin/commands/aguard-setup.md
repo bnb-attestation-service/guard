@@ -17,7 +17,8 @@ report at each decision point — do not install a hook or change any config wit
 
 2. **First scan.** Use the `agentguard-audit` skill. Root: $ARGUMENTS (default `~/.claude`).
    Run `aguard scan --verbose --report` (the HTML report lands in the reports directory and
-   its path is printed), then triage properly per that skill's `references/triage.md` —
+   its path is printed; the Downloads section lists agent-shaped items sitting in ~/Downloads,
+   each with its own score, outside the environment score), then triage properly per that skill's `references/triage.md` —
    worst artifact by name and score, real findings separated from advisory shapes, and any
    dimension-0 note that changes how the result should be read (`IGN-000`/`REP-GOOD`
    suppressions, a `COV-000` saying nothing was collected, `GATE-001`).

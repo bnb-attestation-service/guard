@@ -135,6 +135,22 @@ judgment rests on — relay that number, not just the verdict.
 Context bloat is reported with a token count. That number is the argument to make to the user:
 a bloated `CLAUDE.md` costs them tokens in every single session.
 
+## The Downloads section
+
+`aguard scan` also looks under `~/Downloads` for agent-shaped things that are not installed yet —
+a skill folder, a plugin, an MCP config, an instructions file, or a .zip holding one — and checks
+each on its own. They appear in a separate **Downloads** section with their own scores and never
+enter the environment score. Read that section back as its own list: "you have downloaded N
+agent-shaped things; this one scores 35 and should not be installed; these two are clean."
+Everything else in the folder was counted, never read, never named — say so if asked.
+
+- A low-scoring download is not an incident: nothing has run. The advice is "do not install",
+  and, if they want it anyway, to go through the flagged lines with the user.
+- `aguard check <path-or-zip>` re-checks one item with full detail; the plugin's `/aguard-vet`
+  does the same in conversation.
+- `--inbox <dir>` checks another folder; `--inbox off` skips it (a user who does not want their
+  Downloads looked at is entitled to that — respect it without argument).
+
 ## The HTML report
 
 Every full scan should carry `--report`: it writes a self-contained HTML report (score gauge,

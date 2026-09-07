@@ -12,7 +12,7 @@ nothing on it needs a flag.
 AgentGuard is in place. From here on, just say what you want:
 
 - **Check-up** — "Is my Claude setup safe? Scan it." → audits every installed skill, MCP server, hook and permission grant; an HTML report is saved each time ("Open the report")
-- **Vet before installing** — "I downloaded this skill, is it safe to install?" → hand me the folder or the link
+- **Vet before installing** — "I downloaded this skill, is it safe to install?" → hand me the folder, the zip or the link; every scan also lists what is sitting in your Downloads
 - **Understand a result** — "What does EXFIL-001 mean?" "Why is my score 61?"
 - **Automatic protection** — "Turn on the gate" → every skill is checked before it loads; anything with a finding asks you first
 - **Clean up** — "Clean up my unused skills" → finds duplicate, bloated and stale skills; moves them, never deletes
