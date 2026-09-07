@@ -1,6 +1,6 @@
 ---
 name: agentguard-audit
-description: "Checks whether what you already have installed in Claude is safe. Say things like: 'Scan my Claude setup', 'What does EXFIL-001 mean?', 'Clean up my duplicate skills', 'How do I use AgentGuard?'. Audit an AI agent environment for security risk with AgentGuard (`aguard scan`) — scan ~/.claude or a project's .claude for prompt injection, credential exfiltration, arbitrary-execution grants, silently-running hooks and malicious skills/MCP servers/subagents/CLAUDE.md, then triage the findings into a fix plan. Also covers junk cleanup (`aguard clean`: duplicate, bloated and stale skills, reclaimable context tokens). Trigger when the user asks to scan, audit, review or check the security of their agent setup, asks whether their ~/.claude or installed skills are safe, asks what a finding or rule ID means (INJ-001, EXEC-001, EXFIL-002, PERM-006, HOOK-001, SUP-004, COV-000, GATE-001, …), asks why their risk score is what it is, wants their agent config cleaned up, asks how to use AgentGuard / what it can do (answer with references/usage.md, no scan), or asks for a deeper / AI-powered check or to set up, test or check the LLM judge (references/llm.md)."
+description: "Checks whether what you already have installed in Claude is safe. Say things like: 'Scan my Claude setup', 'What does EXFIL-001 mean?', 'Clean up my duplicate skills', 'How do I use AgentGuard?'. Audit an AI agent environment for security risk with AgentGuard (`aguard scan`) — scan ~/.claude or a project's .claude for prompt injection, credential exfiltration, arbitrary-execution grants, silently-running hooks and malicious skills/MCP servers/subagents/CLAUDE.md, then triage the findings into a fix plan. Also covers junk cleanup (`aguard clean`: duplicate, bloated and stale skills, reclaimable context tokens). Trigger when the user asks to scan, audit, review or check the security of their agent setup, asks whether their ~/.claude or installed skills are safe, asks what a finding or rule ID means (INJ-001, EXEC-001, EXFIL-002, PERM-006, HOOK-001, SUP-004, COV-000, GATE-001, …), asks why their risk score is what it is, wants their agent config cleaned up, asks how to use AgentGuard / what it can do (answer with references/usage.md, no scan), asks for a deeper / AI-powered check or to set up, test or check the LLM judge (references/llm.md), or asks to set up, install, get started with or turn on AgentGuard — in any wording — (references/setup.md)."
 allowed-tools: Bash, Read, Glob, Grep, Write, Edit
 ---
 
@@ -10,6 +10,12 @@ allowed-tools: Bash, Read, Glob, Grep, Write, Edit
 hooks, permission allowlists, subagents, slash commands, installed plugins, `CLAUDE.md` — and
 reports what carries risk. It never executes scanned content and never opens a network
 connection.
+
+**Asked to set up, install or get started with AgentGuard?** Follow
+[references/setup.md](references/setup.md) from the top — it is the same flow `/aguard-setup` runs,
+so a user who says "set this up for me" gets exactly what the command gives. **The binary is
+missing when the user asks for a scan?** That is a first run too: follow setup.md instead of
+installing and scanning by hand, so they also get the gate offer and the usage card.
 
 **Asked how to use it, or what it can do?** Print [references/usage.md](references/usage.md)
 and stop there — no scan unless they ask for one.
