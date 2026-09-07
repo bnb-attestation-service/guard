@@ -52,6 +52,18 @@ of `.claude-plugin/marketplace.json` (the source repo's test keeps them equal). 
 update check reads the marketplace entry; the CLI reads plugin.json. And keep the marketplace
 `name` equal to this repo's name (`guard`) — the desktop looks the marketplace up by repo name.
 
+**After pushing, the desktop does not see the new version by itself.** Its update check reads a
+server-side copy of `marketplace.json`, refreshed only when someone asks:
+
+- **Personal account:** Customize → Plugins → Manage plugins → Personal → select the `guard`
+  marketplace → ⋯ → **Refresh marketplace**, then **Update** on the plugin. Without the refresh the
+  card keeps saying "No changes since the last release" no matter what was pushed.
+- **Team / org account:** the org admin owns the marketplace entry. Syncing is automatic only if the
+  admin has connected the GitHub App for `bnb-attestation-service/guard` and turned on automatic
+  sync; it then triggers on a **merged pull request** that bumps the version, not on a plain push.
+  Until that is set up, land version bumps here through a PR rather than pushing straight to `main`,
+  and ask the admin to refresh after each release.
+
 ## 2. Cut a release (the binaries)
 
 The binaries are built in the **source repo** (it owns the Makefile, the ldflags, the
