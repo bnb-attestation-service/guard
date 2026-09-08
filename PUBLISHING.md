@@ -81,6 +81,16 @@ Then in this repo on GitHub: **Releases → Draft a new release →** tag `vX.Y.
 `aguard-*` binaries and `SHA256SUMS.txt` from `dist/` → **Publish**. Mark it as the latest
 release so `releases/latest/download/…` (what `/aguard-setup` fetches) resolves.
 
+A prefilled form saves the typing: GitHub accepts `tag`, `title` and `body` as query parameters
+on the new-release page, so the release notes can be pasted in by URL and only the files remain:
+
+```bash
+python3 -c 'import urllib.parse as u,sys; v=sys.argv[1]; print("https://github.com/bnb-attestation-service/guard/releases/new?"+u.urlencode({"tag":v,"title":v,"body":open(f"dist/RELEASE_NOTES_{v}.md").read()}))' vX.Y.Z
+```
+
+(run in the source repo after `make dist`; open the printed URL, drag in `dist/aguard-*` and
+`SHA256SUMS.txt`, tick "Set as the latest release", Publish).
+
 With `gh` installed, the same thing without the browser:
 
 ```bash
