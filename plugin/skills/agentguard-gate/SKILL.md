@@ -16,6 +16,15 @@ Binary missing? See [../agentguard-audit/references/install.md](../agentguard-au
 
 ## Install
 
+When offering or being asked to install, open with what the gate is and what it buys, in the
+user's terms, before any command output:
+
+> The gate is automatic protection at the moment that matters. It is a Claude Code hook that
+> checks every skill right before an agent loads it — clean skills pass silently, anything
+> carrying a finding asks you first. A scan tells you what was already in your setup; the gate
+> stands in front of what tries to load next. Approvals are remembered by content hash, so an
+> edited skill asks again by itself.
+
 Check first, then install, then say the quiet part about restarting:
 
 ```bash

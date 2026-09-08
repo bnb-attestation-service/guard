@@ -17,7 +17,8 @@ the decision in front of them one finding at a time:
 - When a structured-question tool is available (Claude Code's AskUserQuestion), ask per
   finding, with the same four options every time: **Fix** · **Remove (quarantine)** ·
   **Baseline (needs a written reason)** · **Skip for now**. Without the tool, present the
-  same four choices as a numbered list and take answers in text.
+  same four choices as a numbered list and take answers in text. Questions, labels and
+  descriptions are in English, matching the cards.
 - Each option's description states the concrete action for THIS finding — "delete `Bash(*)`
   from settings.json", not "apply the fix". The user is choosing an action, not a category.
 - At most four findings per round, in the ranking order of `references/triage.md`: known-bad

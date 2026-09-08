@@ -8,6 +8,10 @@ a first run done halfway. One flow, one file; edit it here.
 Get this machine from nothing to protected. Work through the steps in order and stop to
 report at each decision point — do not install a hook or change any config without agreement.
 
+The flow speaks English end to end — roadmap, step headers, findings, questions, cards —
+regardless of the conversation language. If the user asks something mid-flow, answer in their
+language, then return to the flow in English.
+
 Before step 1, print this roadmap so the user knows what is coming and how much of it is
 theirs to decide:
 
@@ -53,12 +57,24 @@ user always knows where they are and how many decisions remain.
    reachable from there. Tell them to run the scan in the desktop app's Code tab (`</>`) on
    their own machine for a result about their setup.
 
-3. **Fix plan.** For each surviving finding: fix, remove, or baseline with a written reason.
-   Present it; let the user choose. Do not edit their config unprompted.
+3. **Fix plan.** Do not walk the findings one by one yet — deferring them all is the default,
+   and it costs nothing: nothing changes, and every future scan re-reports them. Say how many
+   findings survived triage and ask ONE question: handle them now, or defer them all?
+   Deferring ends this step in one line. Handling now enters the full plan — follow
+   `references/remediate.md` ("Presenting the plan"): per-finding structured choices, at most
+   four per round. Either way, do not edit their config unprompted.
 
-4. **Gate.** Offer the load-time gate via the `agentguard-gate` skill — `aguard hook status`,
-   then `aguard hook install --dry-run` shown before any real install, from a *stable* binary
-   path. State plainly that it covers skills only, that plugin hooks and MCP servers are live
+4. **Gate.** Offer the load-time gate via the `agentguard-gate` skill. Open with what it is
+   and what it buys, before any command output:
+
+   > The gate is automatic protection at the moment that matters. It is a Claude Code hook
+   > that checks every skill right before an agent loads it — clean skills pass silently,
+   > anything carrying a finding asks you first. A scan tells you what was already in your
+   > setup; the gate stands in front of what tries to load next. Approvals are remembered by
+   > content hash, so an edited skill asks again by itself.
+
+   Then `aguard hook status`, and `aguard hook install --dry-run` shown before any real
+   install, from a *stable* binary path. State plainly that it covers skills only, that plugin hooks and MCP servers are live
    from turn one and are not gated, and that it takes effect only for sessions started after a
    restart. Say how many of each the scan actually found — its `hooks` and `mcp_servers` counts
    include the ones plugins bundle — and the `connectors` count is remote connectors
