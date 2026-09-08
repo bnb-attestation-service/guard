@@ -156,6 +156,11 @@ Everything else in the folder was counted, never read, never named — say so if
   does the same in conversation.
 - `--inbox <dir>` checks another folder; `--inbox off` skips it (a user who does not want their
   Downloads looked at is entitled to that — respect it without argument).
+- With `--llm`, the deep check covers the Downloads items too (only the agent-shaped ones; the
+  rest of the folder is still never read). The section's own line says whether it ran; an item's
+  "AI lead(s), advisory" are the judge's, and never move its score.
+- "Nothing flagged" on an item means no finding at all. An item in the Low band that still shows
+  a finding says "one thing to read" instead — read it back that way, not as clean.
 
 ## The HTML report
 

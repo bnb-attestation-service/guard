@@ -21,10 +21,10 @@ read the evidence before acting.
 
 - [1 — Prompt injection](#1--prompt-injection) (6)
 - [2 — Excessive permissions](#2--excessive-permissions) (5)
-- [3 — Data exfiltration](#3--data-exfiltration) (6)
+- [3 — Data exfiltration](#3--data-exfiltration) (7)
 - [4 — Code execution](#4--code-execution) (12)
-- [5 — Supply chain](#5--supply-chain) (5)
-- [6 — Obfuscation](#6--obfuscation) (6)
+- [5 — Supply chain](#5--supply-chain) (7)
+- [6 — Obfuscation](#6--obfuscation) (8)
 - [7 — Backdoor](#7--backdoor) (3)
 - [8 — Resource abuse](#8--resource-abuse) (3)
 - [9 — Filesystem](#9--filesystem) (5)
@@ -61,6 +61,7 @@ read the evidence before acting.
 | `EXFIL-001` | high | Exfiltration chain in one file | The same file both reads a credential and makes an outbound request. Two legs (credential + egress) complete a chain; encoding is an amplifier, not a requirement. When every network target in that file is loopback (127.0.0.1, localhost, or ::1), the finding stays but drops to low + advisory — same band as EXFIL-002 — because the data has not left the machine. |
 | `EXFIL-002` | low · advisory | Exfiltration surface split across files | One file in the artifact reads credentials, a different one makes outbound requests. Much weaker than the same-file chain — unrelated files legitimately do each half — so it is advisory, and only raised when no same-file chain was found. |
 | `EXFIL-003` | high | Exfiltration chain with encoding | All three legs in one file — credential read, encode, egress. Raised INSTEAD of EXFIL-001 (one fact reported twice reads as two problems), together with OBF-004. Same loopback downgrade as EXFIL-001; OBF-004 is not raised when nothing left the machine. |
+| `EXFIL-004` | medium | Whole environment dumped | Enumerates every environment variable — the agent's own API keys and tokens included — and prints, serialises or writes them out. A skill that needs a setting reads it by name; taking all of them is collection. |
 | `LLM-006` | medium · advisory | Cross-file capability chain | Different files of one artifact collect and send between them. |
 | `PERM-001` | high | Inline plaintext secret in a permission entry | An allow entry embeds a credential value directly; remove it and use a secret manager. |
 | `REP-BAD` | critical | Known-malicious artifact (reputation list) | The artifact's canonical hash matches a curated known-bad entry. Hash-exact, so it is the highest-confidence signal the tool has — critical, forcing the environment score to the High band. |
@@ -91,6 +92,8 @@ read the evidence before acting.
 | `SUP-002` | medium | npm install from untrusted source | Installs an npm package from a plaintext / unverified source. |
 | `SUP-003` | low | Unpinned dependency | Version not pinned — prone to poisoning / drift. |
 | `SUP-004` | medium | Artifact points the agent into an excluded directory | Generated/vendored directories (dist/, node_modules/, …) are not scanned, because the canonical hash must survive a rebuild. This fires when the artifact's readable half steers the agent at the half a directory name made unreadable — a path reference, not a bare word, and not in prose docs. |
+| `SUP-005` | medium | Compiled Python bytecode shipped alongside the source | .pyc files (in __pycache__ or loose) travel with the artifact. Python loads a matching .pyc instead of compiling the .py beside it, so what runs need not be what anyone read; no text scanner reads bytecode, this one included. Raised from the tree walk, so it lands even though __pycache__ itself is skipped. |
+| `SUP-006` | medium | Package source redirected to an unofficial registry | An .npmrc/.yarnrc/pip key, a `config set registry` command, or GOPROXY/PIP_INDEX_URL/NPM_CONFIG_REGISTRY points a package manager at a host that is not the vendor's registry, GitHub Packages, a known public mirror, or loopback. Shell variables are resolved one level within the same file; an unresolvable target is reported as unknown, not skipped. Comment-only lines are ignored; comments explaining why the redirect is fine are not consulted. |
 
 ## 6 — Obfuscation
 
@@ -102,6 +105,8 @@ read the evidence before acting.
 | `OBF-003` | medium | Decode-then-eval | Decodes then executes — a classic anti-analysis obfuscation. |
 | `OBF-004` | medium | Encoding co-occurs with an exfiltration chain | The encode leg of EXFIL-003, scored in dimension 6 so its penalty ADDS to the dimension-3 finding instead of being absorbed by it (within a dimension only the highest hit counts). Not raised when the chain's network targets are all loopback. |
 | `OBF-005` | medium | Mixed-script token (homoglyph disguise) | A word mixes ASCII with Cyrillic/Greek letters that look identical to ASCII. This defeats literal pattern matching while running the same command; rules are also applied to a folded copy, so anything hidden this way is still checked. |
+| `OBF-006` | medium | File content does not match its name | A file with a text extension (.txt, .md, .json, …) begins with the signature of an archive or executable (zip, gzip, ELF, Mach-O, PE). The text rules read compressed bytes and match nothing — the disguise's purpose. Images and PDFs are not flagged: inert oddities are noise. |
+| `OBF-007` | low | Content hidden below a long run of blank lines | 200 or more consecutive blank lines with code after them. No editor page, `head`, or size-capped excerpt reaches past a run that long, so what follows is read by the interpreter and nobody else. Cites the first line after the run. |
 
 ## 7 — Backdoor
 
