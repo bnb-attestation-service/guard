@@ -19,9 +19,9 @@ read the evidence before acting.
 
 ## Contents
 
-- [1 — Prompt injection](#1--prompt-injection) (6)
+- [1 — Prompt injection](#1--prompt-injection) (9)
 - [2 — Excessive permissions](#2--excessive-permissions) (5)
-- [3 — Data exfiltration](#3--data-exfiltration) (7)
+- [3 — Data exfiltration](#3--data-exfiltration) (8)
 - [4 — Code execution](#4--code-execution) (12)
 - [5 — Supply chain](#5--supply-chain) (7)
 - [6 — Obfuscation](#6--obfuscation) (8)
@@ -43,6 +43,9 @@ read the evidence before acting.
 | `INJ-004` | medium | Hidden / Unicode-steganography characters | Zero-width / directional control characters are used to hide injected instructions. |
 | `LLM-003` | medium · advisory | Hidden prompt injection | A directive aimed at the agent, phrased to dodge keyword rules. Runs on skills, CLAUDE.md, subagents, slash commands and hooks. |
 | `LLM-007` | high · advisory | Artifact tried to instruct the analyzer | While being examined, the content addressed the analysis model — telling it what to conclude, or to ignore its instructions. Legitimate content has no reason to talk to a scanner. Unlike every other verdict the SEVERITY IS THE TOOL'S, not the model's: a hijacked model would rate its own capture low. |
+| `MCP-001` | high | Tool description asks the agent to read or hand over local files or secrets | A tool's own description tells the model to read a file, key or credential from the user's machine and pass it along. A description explains what a tool does; it has no business directing the model at the user's secrets — that is the tool-poisoning shape. |
+| `MCP-002` | medium | Tool description steers other tools or hides from the user | The description tries to change how the model uses OTHER tools, or tells it to keep something from the user. Sequencing among a connector's own tools is normal; a claim over every tool, or over what the user gets told, is a hijack attempt. |
+| `MCP-003` | medium | Tool description carries system-prompt style directives | Tags like <IMPORTANT> or [SYSTEM], or sentences addressed to 'the assistant', are how a description dresses itself up as the operator's instructions. A tool describes itself; it does not issue orders to the model. |
 
 ## 2 — Excessive permissions
 
@@ -63,6 +66,7 @@ read the evidence before acting.
 | `EXFIL-003` | high | Exfiltration chain with encoding | All three legs in one file — credential read, encode, egress. Raised INSTEAD of EXFIL-001 (one fact reported twice reads as two problems), together with OBF-004. Same loopback downgrade as EXFIL-001; OBF-004 is not raised when nothing left the machine. |
 | `EXFIL-004` | medium | Whole environment dumped | Enumerates every environment variable — the agent's own API keys and tokens included — and prints, serialises or writes them out. A skill that needs a setting reads it by name; taking all of them is collection. |
 | `LLM-006` | medium · advisory | Cross-file capability chain | Different files of one artifact collect and send between them. |
+| `MCP-004` | medium | Tool description directs data to an outside address | The description tells the model to send something to a URL. Where a tool's data goes is decided by the server behind it, not by a sentence the model is asked to obey; a description that names a destination is routing data past the tool. |
 | `PERM-001` | high | Inline plaintext secret in a permission entry | An allow entry embeds a credential value directly; remove it and use a secret manager. |
 | `REP-BAD` | critical | Known-malicious artifact (reputation list) | The artifact's canonical hash matches a curated known-bad entry. Hash-exact, so it is the highest-confidence signal the tool has — critical, forcing the environment score to the High band. |
 

@@ -159,9 +159,11 @@ everything. If a user believes hooks or MCP servers are gated, this is the messa
 When you put numbers on what the gate does not cover, take them from the scan's inventory —
 `hooks` and `mcp_servers` include what installed plugins bundle — and keep two things apart:
 a surface the scan read and found empty, and a surface it does not collect. Claude Desktop's
-remote connectors (the ones added in the app's Connectors tab) are the second kind; a machine
-with `mcp_servers: 0` can still have them live in every session. "Not collected" is the
-honest phrase; "you have none" is a claim the tool cannot back.
+remote connectors (the ones added in the app's Connectors tab) are collected separately, as
+`connectors` in the inventory: their cached tool descriptions are scanned for poisoning, but
+they are NOT gated — like plugin MCP servers, they are live from turn one. So "connectors: N"
+means N were seen in desktop sessions and checked; a connector used only in the browser is not
+in the cache, and the honest phrase for that gap is "seen in desktop sessions", not "all".
 
 ## What reaches the model, and what does not
 

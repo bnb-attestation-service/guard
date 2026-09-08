@@ -7,9 +7,9 @@ allowed-tools: Bash, Read, Glob, Grep, Write, Edit
 # AgentGuard: audit an agent environment
 
 `aguard` statically scans everything a Claude Code agent **auto-loads** — skills, MCP config,
-hooks, permission allowlists, subagents, slash commands, installed plugins, `CLAUDE.md` — and
-reports what carries risk. It never executes scanned content and never opens a network
-connection.
+hooks, permission allowlists, subagents, slash commands, installed plugins, `CLAUDE.md`, and the
+tool descriptions of remote MCP connectors Claude Desktop has cached — and reports what carries
+risk. It never executes scanned content and never opens a network connection.
 
 **Asked to set up, install or get started with AgentGuard?** Follow
 [references/setup.md](references/setup.md) from the top — it is the same flow `/aguard-setup` runs,
@@ -186,7 +186,10 @@ the form a non-technical user can actually read, keep and compare with last mont
 - **Not a safety certificate.** The score is a relative risk signal from static analysis. It
   cannot prove malice, cannot see runtime behaviour (a second-stage payload fetched later, a
   conditional backdoor), cannot recover intent from an encrypted blob, and cannot tell you what
-  an MCP endpoint actually does. Say so when you hand over a clean result.
+  an MCP endpoint actually does. For a remote connector it reads the cached tool DESCRIPTIONS
+  (the tool-poisoning surface: MCP-001..004), not the server's behaviour, and only the
+  connectors seen in a desktop session — not one used only in the browser. Say so when you hand
+  over a clean result.
 - **Not the pre-install check, and not the gate.** Vetting one skill before installing it is
   `agentguard-vet`; making the check run automatically at load time is `agentguard-gate`. A
   scan tells the user what is already in their environment — which is the wrong time to find
