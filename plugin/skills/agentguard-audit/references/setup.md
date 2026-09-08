@@ -24,6 +24,11 @@ report at each decision point — do not install a hook or change any config wit
    worst artifact by name and score, real findings separated from advisory shapes, and any
    dimension-0 note that changes how the result should be read (`IGN-000`/`REP-GOOD`
    suppressions, a `COV-000` saying nothing was collected, `GATE-001`).
+   **If the report carries the sandbox banner** (it ran in Claude Cloud / Cowork, root
+   `/root/.claude`), lead with that, not the score: the number describes a throwaway cloud box,
+   not the user's computer, and their real skills, hooks, permissions and connectors were not
+   reachable from there. Tell them to run the scan in the desktop app's Code tab (`</>`) on
+   their own machine for a result about their setup.
 
 3. **Fix plan.** For each surviving finding: fix, remove, or baseline with a written reason.
    Present it; let the user choose. Do not edit their config unprompted.
