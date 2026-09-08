@@ -8,6 +8,22 @@ a first run done halfway. One flow, one file; edit it here.
 Get this machine from nothing to protected. Work through the steps in order and stop to
 report at each decision point — do not install a hook or change any config without agreement.
 
+Before step 1, print this roadmap so the user knows what is coming and how much of it is
+theirs to decide:
+
+> Setting up AgentGuard — five steps:
+>
+> 1. Install the `aguard` binary (checksum-verified)
+> 2. First scan of your setup
+> 3. Walk through what it found — **you choose** what happens to each finding
+> 4. Offer the load-time gate — **your decision**
+> 5. Offer the optional AI deep check — **your decision**
+>
+> Nothing is installed or changed without your agreement.
+
+Then start each step's report with `[Step N/5] <name>` — e.g. `[Step 2/5] First scan` — so the
+user always knows where they are and how many decisions remain.
+
 1. **Binary.** `command -v aguard || ls ./bin/aguard`. If missing, use the `agentguard-audit`
    skill's `references/install.md` — including the checksum verification, which is not optional.
    Run its steps as separate single commands. If the app blocks a download or move step (auto
@@ -28,6 +44,9 @@ report at each decision point — do not install a hook or change any config wit
    worst artifact by name and score, real findings separated from advisory shapes, and any
    dimension-0 note that changes how the result should be read (`IGN-000`/`REP-GOOD`
    suppressions, a `COV-000` saying nothing was collected, `GATE-001`).
+   This is the first score the user has ever seen from this tool: print the score card from
+   `references/score-card.md` right under it, so the number arrives with its reading
+   instructions.
    **If the report carries the sandbox banner** (it ran in Claude Cloud / Cowork, root
    `/root/.claude`), lead with that, not the score: the number describes a throwaway cloud box,
    not the user's computer, and their real skills, hooks, permissions and connectors were not
