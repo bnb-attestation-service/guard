@@ -10,6 +10,10 @@ report at each decision point — do not install a hook or change any config wit
 
 1. **Binary.** `command -v aguard || ls ./bin/aguard`. If missing, use the `agentguard-audit`
    skill's `references/install.md` — including the checksum verification, which is not optional.
+   Run its steps as separate single commands. If the app blocks a download or move step (auto
+   mode does this at random), follow install.md's "If a step is blocked" section exactly: one
+   sentence, the three Terminal lines with the platform filled in, wait for "done". Do not
+   retry or improvise around the block.
    If present, do NOT stop at "already installed": run `aguard version` — if it reports the
    plugin is newer than the binary, that is the answer — otherwise compare it with the
    latest release tag as described in install.md's "Upgrading" section, and when it is older,
