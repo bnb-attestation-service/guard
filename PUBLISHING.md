@@ -28,7 +28,9 @@ SRC=path/to/agent-guard          # private source checkout
 DIST=path/to/guard              # this repo's checkout
 
 # Refuse to overwrite edits that only exist here. Empty output = safe to proceed.
-diff -rq "$SRC/plugin" "$DIST/plugin" && echo "in sync" || { echo "guard/plugin has changes not in the source repo — port them back first"; exit 1; }
+diff -rq -x plugin.json "$SRC/plugin" "$DIST/plugin" && echo "in sync" || { echo "guard/plugin has changes not in the source repo — port them back first"; exit 1; }
+# (-x plugin.json: the version bump lives in the source repo right before a release, so that one
+#  file is expected to differ; anything else differing means someone edited plugin/ here.)
 ```
 
 ```bash
