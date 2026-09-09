@@ -48,7 +48,7 @@ the user asks for onto one of the commands below.
 ### 1. Install it
 
 ```bash
-npx --yes @bas/agentguard@latest version
+npx --yes @bas.io/guard@latest version
 ```
 
 That prints a version and needs nothing else — the binary ships inside the package, so there is
@@ -56,7 +56,7 @@ no install script and nothing is downloaded at install time. If the user wants i
 wants the load-time gate, install it properly instead:
 
 ```bash
-npm i -g @bas/agentguard
+npm i -g @bas.io/guard
 ```
 
 No Node on the machine? Use the [manual install](#manual-install-if-aguard-setup-cannot-fetch-the-binary)
@@ -109,7 +109,7 @@ close to 100 and that number would otherwise be read as "my computer is fine."
 - **Terminal**: `claude plugin update agentguard@guard`, or turn on auto-update for the marketplace once.
 - **The binary** never updates itself: `aguard version` tells you when it is behind the plugin, and
   `/aguard-setup` upgrades it in place.
-- **Installed from npm**: `npm i -g @bas/agentguard@latest` (or just use `npx …@latest`, which
+- **Installed from npm**: `npm i -g @bas.io/guard@latest` (or just use `npx …@latest`, which
   always resolves the newest release).
 
 ## Use it — no commands to memorize
