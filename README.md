@@ -75,7 +75,9 @@ not offer to skip it.
 
 Exit codes are the contract: `0` below threshold · `1` a finding at or above `--fail-on` ·
 `2` runtime error · `3` (`clean` only) acted partially. **A `2` is not a pass** — it means the
-scan did not happen, usually a bad path. Never report it as clean.
+scan did not happen, usually a bad path. Never report it as clean. A run stopped by a signal
+ends as `128 + signal` (`130` for Ctrl-C, `141` for a closed output pipe), which is also not a
+verdict.
 
 ### 3. What you are actually scanning
 
