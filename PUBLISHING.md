@@ -14,12 +14,24 @@ So there are two things to keep in sync, and they move on different clocks:
 
 ## 1. Sync the text (plugin, rules, hack)
 
+**Plugin text is edited in the source repo, not here.** `plugin/` in this repo is a copy, and the
+sync below deletes it and copies the source repo's version over — a PR that changes `plugin/`
+here directly (it has happened: #1) is erased by the next release unless it is ported back to
+the source repo first. If you review such a PR, either ask for it against the source repo, or
+merge it and port it immediately. The check below refuses to sync while the two trees differ in
+a way that would lose something.
+
 From a checkout of the **private source repo** (on the tag or branch you are publishing):
 
 ```bash
 SRC=path/to/agent-guard          # private source checkout
 DIST=path/to/guard              # this repo's checkout
 
+# Refuse to overwrite edits that only exist here. Empty output = safe to proceed.
+diff -rq "$SRC/plugin" "$DIST/plugin" && echo "in sync" || { echo "guard/plugin has changes not in the source repo — port them back first"; exit 1; }
+```
+
+```bash
 rm -rf "$DIST/plugin" "$DIST/docs" "$DIST/hack"
 cp -r "$SRC/plugin"                       "$DIST/plugin"
 cp "$SRC/.claude-plugin/marketplace.json" "$DIST/.claude-plugin/marketplace.json"
