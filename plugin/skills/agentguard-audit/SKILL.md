@@ -85,6 +85,11 @@ findings are structural shapes rather than verdicts, why dimension-0 notes are c
 and not risks, and the specific misreadings to avoid (an `advisory` label, a `REP-GOOD`
 suppression, an empty inventory that scores 100).
 
+The first time a score comes up in a conversation — and whenever the user asks what it means
+or why it is what it is — print the score card from
+[references/score-card.md](references/score-card.md) right under it, so the number arrives
+with its reading instructions.
+
 Every rule ID is catalogued with its dimension, severity and trigger in
 <https://github.com/bnb-attestation-service/guard/blob/main/docs/rules.md> (or `docs/rules.md`
 in a local checkout). Look one up rather than guessing from its name — that page is generated
@@ -175,6 +180,12 @@ the form a non-technical user can actually read, keep and compare with last mont
 - **On a routine scan, do not open it unasked.** End with one line — where it is, and "say
   'open the report' to view it". A browser window on every scan is noise.
 - **When asked, open it**: `open <path>` on macOS, `xdg-open <path>` on Linux.
+- **Say the trend when there is one.** Reports accumulate in `~/.config/aguard/reports/`, so
+  after a `--report` scan check for the previous report and put the two scores side by side —
+  `grep -oE '[0-9]+/100' <previous-report> | head -1` recovers its headline score. Attribute
+  the change: findings fixed or artifacts removed move the number honestly; artifacts merely
+  added or dropped move it by dilution, because the score is a mean (see triage.md). No
+  previous report — nothing to say.
 - **`/aguard-setup` is the exception**: the first run opens it, because that is the one moment a
   visual report earns a window.
 - The report contains the user's own paths and redacted snippets from their configuration. It

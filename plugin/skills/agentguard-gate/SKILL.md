@@ -16,6 +16,15 @@ Binary missing? See [../agentguard-audit/references/install.md](../agentguard-au
 
 ## Install
 
+When offering or being asked to install, open with what the gate is and what it buys, in the
+user's terms, before any command output:
+
+> The gate is automatic protection at the moment that matters. It is a Claude Code hook that
+> checks every skill right before an agent loads it — clean skills pass silently, anything
+> carrying a finding asks you first. A scan tells you what was already in your setup; the gate
+> stands in front of what tries to load next. Approvals are remembered by content hash, so an
+> edited skill asks again by itself.
+
 Check first, then install, then say the quiet part about restarting:
 
 ```bash
@@ -36,6 +45,26 @@ SessionStart          announces what the gate does NOT cover
 **The gate only takes effect for sessions started after the install.** Tell the user to restart
 Claude Code — otherwise they will act as if a gate that has never run is protecting them, which
 is worse than knowing they are unprotected.
+
+### After a successful install, close the loop
+
+The install ends with a restart the user does without you. Before they go, print what comes
+next, so the gate's first appearances are expected rather than alarming:
+
+> The gate is installed and starts working after you restart Claude Code.
+>
+> - **On every session start** it prints one line: which installed artifacts carry findings,
+>   and which surfaces it does not stand in front of (plugin hooks and MCP servers are live
+>   from turn one).
+> - **When a skill with findings is about to load**, you are asked first. The prompt names
+>   rule IDs and file:line — never file contents. Approving trusts that exact version of the
+>   skill: edit one byte and it asks again.
+> - Approving is a real decision — say "show me the findings" before you say yes.
+>
+> After restarting, say **"check the gate"** and I'll verify it is running.
+
+"Check the gate" afterwards means `aguard hook status` plus `aguard approvals` — report what is
+wired up and what is trusted, and flag a registered command that no longer resolves (`GATE-001`).
 
 ### Before you write to `settings.json`
 

@@ -9,6 +9,27 @@ Three outcomes exist for a finding, and the third is the one to argue against.
 
 Never silently pick (3) because (1) looked like work.
 
+## Presenting the plan
+
+A fix plan the user has to excavate from prose is a fix plan that does not get executed. Put
+the decision in front of them one finding at a time:
+
+- When a structured-question tool is available (Claude Code's AskUserQuestion), ask per
+  finding, with the same four options every time: **Fix** · **Remove (quarantine)** ·
+  **Baseline (needs a written reason)** · **Skip for now**. Without the tool, present the
+  same four choices as a numbered list and take answers in text. Questions, labels and
+  descriptions are in English, matching the cards.
+- Each option's description states the concrete action for THIS finding — "delete `Bash(*)`
+  from settings.json", not "apply the fix". The user is choosing an action, not a category.
+- At most four findings per round, in the ranking order of `references/triage.md`: known-bad
+  matches first, then execution grants, exfiltration chains, hooks, filesystem reach, the
+  rest. Advisory shapes go last, framed as "go look", not as a decision already due.
+- A **Baseline** answer is not complete until the user has said why — that reason is the
+  comment the `.aguardignore` entry requires. Ask for it; never invent one.
+- When every finding has an answer, read the collected plan back — what will be edited, what
+  moved, what baselined and on whose reasoning — and get one final go-ahead before touching
+  any file.
+
 ## Fixes for the findings you will actually see
 
 ### Permission allowlists (`settings.json`)
