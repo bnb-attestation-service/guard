@@ -131,7 +131,7 @@ cp hack/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
 cp hack/github-action.yml .github/workflows/agentguard.yml
 ```
 
-Both live in the [agent-guard repo's `hack/`](https://github.com/bnb-attestation-service/guard/tree/main/hack)
+Both live in the [agent-guard repo's `hack/`](https://github.com/basdotio/guard/tree/main/hack)
 directory, so the `cp` lines above assume a checkout. The pre-commit hook scans every staged
 directory whose `SKILL.md` is staged, honours `AGUARD_FAIL_ON` (default `high`) and `AGUARD`
 (binary path), and blocks the commit on a non-zero exit. **Read it before recommending it** —
