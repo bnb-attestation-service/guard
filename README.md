@@ -9,15 +9,36 @@
 This is the **distribution repo**: the plugin and prebuilt binaries. The source lives in a
 separate repository.
 
-Two ways in: the **Claude Code plugin** (below), or — if you handed this URL to an assistant
-such as Cowork and want it to do the work — [Driving it from this
-URL](#driving-it-from-this-url-cowork-and-other-assistants).
+## Quick start
 
-## Install (Claude Code plugin)
+```bash
+# vet one skill, plugin or zip BEFORE it reaches a directory an agent loads from
+npx --yes @bas.io/guard@latest check ./some-skill
 
-Two commands, then a restart. In the **terminal** Claude Code they are slash commands; in the
-**VS Code / JetBrains extension** run them from a shell as `claude plugin …` (the extension has
-no `/plugin`).
+# audit everything the agent on this machine auto-loads
+npx --yes @bas.io/guard@latest scan --report
+```
+
+Nothing is installed and nothing is fetched at install time: the binary ships inside the npm
+package, so there is no install script to run. Keep it around with `npm i -g @bas.io/guard`,
+which is also what you want if you plan to use the load-time gate — see
+[the gate needs a stable path](#4-two-things-not-to-get-wrong).
+
+Handed this URL to an assistant? [Driving it from this
+URL](#driving-it-from-this-url-cowork-and-other-assistants) is the whole interface.
+
+## Install
+
+**npm** (macOS / Linux, nothing to pick): the two commands above. `npx` resolves the newest
+release every time; `npm i -g @bas.io/guard` keeps it on your `PATH` as `aguard`.
+
+**No Node on the machine?** [Manual install](#manual-install-no-node) — download, verify the
+checksum, run.
+
+**Claude Code plugin** — the way to use it in plain language, and the only way to get the
+skills that read a report for you. Two commands, then a restart. In the **terminal** Claude
+Code they are slash commands; in the **VS Code / JetBrains extension** run them from a shell as
+`claude plugin …` (the extension has no `/plugin`).
 
 ```
 /plugin marketplace add bnb-attestation-service/guard
@@ -52,23 +73,27 @@ npx --yes @bas.io/guard@latest version
 ```
 
 That prints a version and needs nothing else — the binary ships inside the package, so there is
-no install script and nothing is downloaded at install time. If the user wants it to stay, or
-wants the load-time gate, install it properly instead:
+no install script and nothing is downloaded at install time. Every command below works the same
+way: prefix it with `npx --yes @bas.io/guard@latest` instead of `aguard`. If the user wants it
+to stay, or wants the load-time gate, install it properly instead:
 
 ```bash
 npm i -g @bas.io/guard
 ```
 
-No Node on the machine? Use the [manual install](#manual-install-if-aguard-setup-cannot-fetch-the-binary)
-below — download, **verify the checksum**, then run. Do not skip the verification step and do
-not offer to skip it.
+No Node on the machine? Use the [manual install](#manual-install-no-node) below — download,
+**verify the checksum**, then run. Do not skip the verification step and do not offer to skip it.
 
 ### 2. Map the request onto a command
 
+`check` is the one to reach for first: it answers about a specific thing the user has in hand,
+so its answer does not depend on which machine you are running on. `scan` describes the machine
+it runs on — read §3 before you report its number.
+
 | The user asks | Run | Then |
 |---|---|---|
-| "is my setup safe?", "check my Claude config" | `aguard scan --report` | Read the findings back: worst artifact **by name and score** first, real findings separated from the ones labelled advisory. The HTML report path is printed — offer it, don't open it unasked. |
 | "is this skill safe to install?" | `aguard check <dir\|zip>` | Get the thing into a directory the agent does **not** load from (`/tmp/vet-…`) first — never into `~/.claude/skills/`. Finish with a recommendation: install / install after these changes / don't. |
+| "is my setup safe?", "check my Claude config" | `aguard scan --report` | Read the findings back: worst artifact **by name and score** first, real findings separated from the ones labelled advisory. The HTML report path is printed — offer it, don't open it unasked. |
 | "what does EXFIL-001 mean?", "why is my score 61?" | — | Look the ID up in [`docs/rules.md`](docs/rules.md). Never guess a rule's meaning from its name. |
 | "clean up my skills" | `aguard clean` | Report-only by default. `--apply` **moves** things into `<root>/.aguard-trash` and never deletes; show `--dry-run` and get agreement before any `--apply`. |
 | "turn on automatic protection" | `aguard hook install --dry-run`, then `aguard hook install` | It writes to the user's `settings.json`: show the dry run and get agreement first, then tell them it only takes effect in sessions started after a restart. |
@@ -81,13 +106,22 @@ verdict.
 
 ### 3. What you are actually scanning
 
-`aguard scan` reads the config root on **the machine the command runs on** — normally the
-user's own computer and their real `~/.claude`. That is the point, and it is why the tool is
-installed locally rather than consulted remotely.
+The two commands make different claims, and only one of them depends on where you are running.
 
-If a run happens to land in a cloud sandbox or CI container instead, the report says so itself:
-it prints a banner naming the signals it used, because a near-empty throwaway container scores
-close to 100 and that number would otherwise be read as "my computer is fine."
+- **`check <path>`** judges the artifact at that path. Whatever machine you are on, the answer
+  is about the thing you pointed at, so it holds in a cloud session as well as on a laptop.
+- **`scan`** reads the config root of **the machine the command runs on** and its answer is a
+  statement about that machine. On the user's own computer that is their real `~/.claude`,
+  which is the point — it is why the tool is installed and run locally rather than consulted
+  remotely.
+
+**If you are working in a cloud sandbox — a hosted assistant session, a CI container — `scan`
+describes that container, not the user's computer.** The tool detects this and prints a banner
+naming the signals it used, because a near-empty throwaway container scores close to 100 and
+that number reads as "my computer is fine" to anyone who did not run it. Relay the banner
+before the score, never the score alone, and tell the user that an audit of *their* machine has
+to run there: Claude Code, or the desktop app's Code tab. `check` is unaffected — in a cloud
+session it is the command that still answers honestly.
 
 ### 4. Two things not to get wrong
 
@@ -146,7 +180,7 @@ The one command that writes is `clean`, and it only ever **moves** things into
 `<root>/.aguard-trash` (reversible with `--undo`) — it never deletes. Everything else is
 strictly read-only.
 
-## Manual install (if `/aguard-setup` cannot fetch the binary)
+## Manual install (no Node)
 
 Download the binary for your platform from the [latest release](../../releases/latest), plus
 `SHA256SUMS.txt`, then:
