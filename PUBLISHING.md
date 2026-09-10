@@ -3,7 +3,7 @@
 This is the **public distribution repo**. It holds no source — only the plugin (skills +
 commands), the generated rule reference, the CI helper scripts, and, on each release, the
 prebuilt binaries. The source of truth is the **private** repo
-`bnb-attestation-service/agent-guard`. Everything here is copied out of it.
+`basdotio/agent-guard`. Everything here is copied out of it.
 
 So there are two things to keep in sync, and they move on different clocks:
 
@@ -58,7 +58,7 @@ the marketplace), so it is `plugin/` that must stay clean, and it does.
 Then `git add -A && git commit && git push` in `$DIST`.
 
 **Note:** the plugin's `install.md` and README point `curl` at THIS repo
-(`bnb-attestation-service/guard`). If you rename this repo, grep the plugin for the old name
+(`basdotio/guard`). If you rename this repo, grep the plugin for the old name
 and fix it, or `/aguard-setup` will fetch from a 404.
 
 Before tagging, bump the version in BOTH `plugin/.claude-plugin/plugin.json` and the plugin entry
@@ -73,7 +73,7 @@ server-side copy of `marketplace.json`, refreshed only when someone asks:
   marketplace → ⋯ → **Refresh marketplace**, then **Update** on the plugin. Without the refresh the
   card keeps saying "No changes since the last release" no matter what was pushed.
 - **Team / org account:** the org admin owns the marketplace entry. Syncing is automatic only if the
-  admin has connected the GitHub App for `bnb-attestation-service/guard` and turned on automatic
+  admin has connected the GitHub App for `basdotio/guard` and turned on automatic
   sync; it then triggers on a **merged pull request** that bumps the version, not on a plain push.
   Until that is set up, land version bumps here through a PR rather than pushing straight to `main`,
   and ask the admin to refresh after each release.
@@ -99,7 +99,7 @@ A prefilled form saves the typing: GitHub accepts `tag`, `title` and `body` as q
 on the new-release page, so the release notes can be pasted in by URL and only the files remain:
 
 ```bash
-python3 -c 'import urllib.parse as u,sys; v=sys.argv[1]; print("https://github.com/bnb-attestation-service/guard/releases/new?"+u.urlencode({"tag":v,"title":v,"body":open(f"dist/RELEASE_NOTES_{v}.md").read()}))' vX.Y.Z
+python3 -c 'import urllib.parse as u,sys; v=sys.argv[1]; print("https://github.com/basdotio/guard/releases/new?"+u.urlencode({"tag":v,"title":v,"body":open(f"dist/RELEASE_NOTES_{v}.md").read()}))' vX.Y.Z
 ```
 
 (run in the source repo after `make dist`; open the printed URL, drag in `dist/aguard-*` and
@@ -108,7 +108,7 @@ python3 -c 'import urllib.parse as u,sys; v=sys.argv[1]; print("https://github.c
 With `gh` installed, the same thing without the browser:
 
 ```bash
-gh release create vX.Y.Z -R bnb-attestation-service/guard \
+gh release create vX.Y.Z -R basdotio/guard \
   --title vX.Y.Z --generate-notes \
   dist/aguard-* dist/SHA256SUMS.txt
 ```

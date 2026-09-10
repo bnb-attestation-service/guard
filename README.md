@@ -41,7 +41,7 @@ Code they are slash commands; in the **VS Code / JetBrains extension** run them 
 `claude plugin …` (the extension has no `/plugin`).
 
 ```
-/plugin marketplace add bnb-attestation-service/guard
+/plugin marketplace add basdotio/guard
 /plugin install agentguard@guard
 ```
 In the terminal, turn on auto-update for this marketplace once (`/plugin` → **Marketplaces** →

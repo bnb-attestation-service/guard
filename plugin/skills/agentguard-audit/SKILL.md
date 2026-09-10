@@ -91,7 +91,7 @@ or why it is what it is — print the score card from
 with its reading instructions.
 
 Every rule ID is catalogued with its dimension, severity and trigger in
-<https://github.com/bnb-attestation-service/guard/blob/main/docs/rules.md> (or `docs/rules.md`
+<https://github.com/basdotio/guard/blob/main/docs/rules.md> (or `docs/rules.md`
 in a local checkout). Look one up rather than guessing from its name — that page is generated
 from the engine's own rule set and CI fails if it drifts, so the severity written there is the
 severity that will gate a build.
