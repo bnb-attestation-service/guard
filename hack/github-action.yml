@@ -19,7 +19,7 @@ jobs:
           go-version: '1.23'
 
       - name: install aguard
-        run: go install github.com/bnb-attestation-service/agent-guard/cmd/aguard@latest
+        run: go install github.com/basdotio/agent-guard/cmd/aguard@latest
 
       # Point --root at the dir that holds your skills/ (here: the repo itself).
       #
